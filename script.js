@@ -15,7 +15,8 @@
     var ctx = cnv.getContext("2d");
     var location;
     ctx.strokeStyle = "#FFFFFF";
-    ctx.lineWidth = 2;
+    
+    
     // ctx.clearRect();
 
 
@@ -28,7 +29,8 @@
     // btn.addEventListener("click",myFunction);
 
 
-
+    var pen = document.getElementById("PEN");
+    var eraser = document.getElementById("ERASER");
     var stickynotes = document.getElementById("stickynotes");
     var red = document.getElementById("red");
     var yellow = document.getElementById("yellow");
@@ -40,7 +42,7 @@
     var smaller = document.getElementById("smaller");
     var mediumer = document.getElementById("mediumer");
     var largeer = document.getElementById("largeer");
-    var reset = document.getElementById("reset");
+   
     var eraserprop = {
         width: 6,
         height: 6
@@ -64,11 +66,29 @@
     // sticky textarea
 
     var mode = "";
+
     function creatingsticky() {
         mode = "stickytext";
     }
     stickynotes.addEventListener("click", creatingsticky);
 
+    function penmode() {
+        mode = "pen";
+        ctx.lineWidth = 4;
+        ctx.strokeStyle="white";
+        // isdrawing=true;
+        // iserasing=false;
+    }
+    pen.addEventListener("click", penmode);
+
+    function erasermode() {
+        mode = "eraser";
+        eraserprop.width = 9;
+        eraserprop.height = 9;
+        // isdrawing=false;
+        // iserasing=true;
+    }
+    eraser.addEventListener("click", erasermode);
 
 
 
@@ -79,23 +99,21 @@
 
     // eraser and eraser size
     function smalleraser() {
-        iserasing = true;
-        eraserprop.width = 4;
-        eraserprop.height = 4;
+        
+        eraserprop.width = 6;
+        eraserprop.height = 6;
 
     }
     smaller.addEventListener("click", smalleraser);
     function mediumeraser() {
-        iserasing = true;
-        eraserprop.width = 8;
-        eraserprop.height = 8;
+        eraserprop.width = 13;
+        eraserprop.height = 13;
 
     }
     mediumer.addEventListener("click", mediumeraser);
     function largeeraser() {
-        iserasing = true;
-        eraserprop.width = 10;
-        eraserprop.height = 10;
+        eraserprop.width = 20;
+        eraserprop.height = 20;
     }
     largeer.addEventListener("click", largeeraser);
 
@@ -127,19 +145,19 @@
     green.addEventListener("click", greenchangecolor);
 
     function smallpen() {
-        ctx.lineWidth = 1;
+        ctx.lineWidth = 2;
 
     }
     small.addEventListener("click", smallpen);
 
     function mediumpen() {
-        ctx.lineWidth = 4;
+        ctx.lineWidth = 7;
 
     }
     medium.addEventListener("click", mediumpen);
 
     function largepen() {
-        ctx.lineWidth = 8;
+        ctx.lineWidth = 10;
 
     }
     large.addEventListener("click", largepen);
@@ -162,18 +180,20 @@
         if (mode === "stickytext") {
                 // console.log("hjkh");
             var sticky = document.createElement("TEXTAREA");
-            sticky.value = "x: " + location.x + " y: " + location.y;
+            // sticky.value = "x: " + location.x + " y: " + location.y;
             sticky.style.position = 'absolute';
-            sticky.style.top = location.y;
-            sticky.style.left = location.x;
+            sticky.style.top = location.y + 60 +'px';
+            sticky.style.left = location.x + 10 + 'px';
             document.body.appendChild(sticky);
+        }else if(mode==="pen"){
+            isdrawing=true;
+        }else if(mode==="eraser"){
+            iserasing=true;
         }
-        if (iserasing != true) {
-            isdrawing = true;
-        }
+
     }
     function onmousemove() {
-        if (isdrawing === true) {
+        if (isdrawing === true&&mode==="pen") {
             console.log(location.x + " : " + location.y);
             ctx.beginPath();
             ctx.moveTo(location.x, location.y);
@@ -181,7 +201,7 @@
             ctx.lineTo(location.x, location.y);
             ctx.stroke();
             ctx.closePath();
-        } else if (iserasing === true) {
+        } else if (iserasing === true&&mode==="eraser") {
             // ctx.beginPath();
             location = getlocation();
             ctx.clearRect(location.x, location.y, eraserprop.width, eraserprop.height);
@@ -193,11 +213,6 @@
         iserasing = false;
     }
 
-    function resetsetting() {
-        iserasing = false;
-        isdrawing = true;
-    }
-    reset.addEventListener('reset', resetsetting);
     cnv.addEventListener('mousedown', onmousedown);
     cnv.addEventListener('mousemove', onmousemove);
     cnv.addEventListener('mouseup', onmouseup);
