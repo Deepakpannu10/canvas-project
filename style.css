@@ -1,0 +1,27 @@
+h4 {
+    color:maroon;
+    text-align: center;
+    border: 2px solid red; 
+    background: linear-gradient(to right,#0033dd ,#0099ff);
+    background-color: rgba(21, 107, 146, 0.363);
+    /* box-shadow: 2px 2px 4px #ffffff; */
+}
+canvas {
+    position: absolute;
+    border-top: 1px solid black;
+    background-color: black;
+    top:57px;
+    /* height: 100%; */
+    /* width: 100%; */
+    /* box-sizing: border-box; */
+}
+.button {
+    background-color: rgb(5, 5, 5);
+    border: none;
+    color: white;
+    /* padding: 3px 3px; */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+  }
